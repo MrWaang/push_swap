@@ -1,37 +1,27 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: mah-ming <marvin@42.fr>                    +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/05/16 16:18:38 by mah-ming          #+#    #+#              #
-#    Updated: 2025/05/16 16:18:39 by mah-ming         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
+CC=clang
 NAME = push_swap
-LIBFT = libft
-LIBFTM = $(LIBFT)/libft.a
-CC = gcc
-CFLAGS = -Wall -Wextra -Werror
-SRC = push_swap.c a_rules.c b_rules.c sort.c sorts.c utils.c helper.c
-OBJS = $(SRC:.c=.o)
+SRCS = srcs/push_swap.c srcs/push_swap_utils.c srcs/rotate_numbers.c srcs/sorting_utils.c srcs/sorting.c srcs/push_numbers.c srcs/algorithm.c srcs/algorithm_smallest.c srcs/algorithm_getpos.c srcs/algorithm_utils.c srcs/algorithm_chunk.c srcs/algorithm_chunk_two.c srcs/parsing.c srcs/parsing_utils.c
+HEADER = includes/push_swap.h
+OBJS = $(SRCS:.c=.o)
+CFLAGS = -Wall -Wextra -Werror -I includes
+LIBFT = libft/libft.a
 
-all: $(NAME)
+all:$(NAME)
 
 $(NAME): $(OBJS)
-	@make -C $(LIBFT)
-	@$(CC) $(CFLAGS) $(OBJS) $(LIBFTM) -o $(NAME)
+	@$(CC) $(OBJS) $(LDFLAGS) -o $(NAME)
 
-clean:
-	@rm -f $(OBJS)
-	@make clean -C $(LIBFT)
+%.o : %.c $(HEADER)
+	@$(CC) $(CFLAGS) $< -c -o $@
 
 fclean: clean
-	@make fclean -C $(LIBFT)
+	@make fclean -C libft
 	@rm -f $(NAME)
+
+clean:
+	@make clean -C libft
+	@rm -f $(OBJS)
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all fclean clean run run2 re

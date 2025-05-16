@@ -3,54 +3,69 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mah-ming <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mforest- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/29 11:46:25 by sdaban            #+#    #+#             */
-/*   Updated: 2025/05/16 16:18:01 by mah-ming         ###   ########.fr       */
+/*   Created: 2025/01/14 23:38:18 by mforest-          #+#    #+#             */
+/*   Updated: 2025/02/04 20:34:27 by mforest-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H
 
-typedef struct s_stack
+# include "../libft/libft.h"
+
+typedef struct s_pslist
 {
-	int	*a;
-	int	*b;
-	int	size_a;
-	int	size_b;
-	int	flag;
-}	t_stack;
+	int		*tab;
+	size_t	size;
+	size_t	size_max;
+}			t_pslist;
 
-void	free_whole_str(char **str);
-void	perror_and_free(t_stack *stack);
-int		strlen_2(char **str);
-int		advanced_atoi(char *str, t_stack *stack);
-void	check_repeated_args(t_stack *stack, int size);
+typedef struct s_chunk_params
+{
+	int		chunk_count;
+	long	range;
+	int		max_val;
+}			t_chunk_params;
 
-int		is_sorted(int *stack_a, int size, int flag);
-int		sort_stack(t_stack *stack, int size);
-void	sort_three(t_stack *s);
-void	ft_sort_int_tmp(int *tmp_stack, int size);
-
-void	quick_sort3(t_stack *stack, int len);
-int		b_sort_small(t_stack *s, int len);
-int		push_stack(t_stack *stack, int len, int operation);
-int		get_middle_and_free_tmp(int *pivot, int *stack_a, int size);
-int		quick_sort_a_stack(t_stack *stack, int len, int count);
-int		quick_sort_b_stack(t_stack *stack, int len, int count);
-
-void	sa(t_stack *stack, int print);
-void	rra(t_stack *stack, int print);
-void	ra(t_stack *stack, int print);
-void	pa(t_stack *stack, int print);
-
-void	pb(t_stack *stack, int print);
-void	sb(t_stack	*stack, int print);
-void	rb(t_stack	*stack, int print);
-void	rrb(t_stack *stack, int print);
-
-void	ft_push_swap(char **av, int flag);
-void	finisher(t_stack *stack, char **av);
+t_pslist	*init_stack(int capacity);
+void		push_head(t_pslist *stack, int value);
+void		sort_swap(t_pslist *stack_a, t_pslist *stack_b, char *ist);
+void		sort_push(t_pslist *stack_a, t_pslist *stack_b, char *ist);
+void		rotate(t_pslist *stack_a, t_pslist *stack_b, char *ist);
+void		rotate_part_one(t_pslist *stack_a, t_pslist *stack_b, char *ist);
+void		rotate_part_two(t_pslist *stack_a, t_pslist *stack_b, char *ist);
+void		rotate_stack(t_pslist *stack, char *ist);
+int			sorting(t_pslist *stack_a, t_pslist *stack_b, char *ist);
+int			sorting_algorithm(t_pslist *stack_a, t_pslist *stack_b, int num);
+void		two_numbers_sort(t_pslist *stack_a, t_pslist *stack_b);
+void		three_numbers_sort(t_pslist *stack_a, t_pslist *stack_b);
+void		four_numbers_sort(t_pslist *stack_a, t_pslist *stack_b);
+void		five_numbers_sort(t_pslist *stack_a, t_pslist *stack_b);
+void		push_a(t_pslist *stack_a, t_pslist *stack_b);
+void		push_b(t_pslist *stack_a, t_pslist *stack_b);
+int			stack_is_sort(t_pslist *stack);
+void		move_max_to_b(t_pslist *stack_a, t_pslist *stack_b);
+int			get_target_position(int value, t_pslist *stack);
+void		first_phase_push_b(t_pslist *stack_a, t_pslist *stack_b,
+				int min_val, int max_val);
+void		second_phase_push_a(t_pslist *stack_a, t_pslist *stack_b);
+void		push_optimal_element(t_pslist *a, t_pslist *b, int chunk_start,
+				int chunk_end);
+int			find_best_index(t_pslist *a, int chunk_start, int chunk_end);
+void		get_min_max(t_pslist *stack, int *min, int *max);
+int			get_max_index(t_pslist *stack_a);
+int			get_min_index(t_pslist *stack_a);
+int			check_entries(char **argv);
+int			check_nbr(char **argv);
+char		**parse_args(int ac, char **av, long *count);
+int			parsing(int argc, char **argv);
+void		find_max_val_and_pos(t_pslist *stack_b, int *max_val,
+				size_t *max_pos);
+void		bucket_sort(t_pslist *stack_a, t_pslist *stack_b);
+void		free_stacks(t_pslist *stack_a, t_pslist *stack_b, int ac,
+				char **args);
+void		ft_free(char **str);
 
 #endif
